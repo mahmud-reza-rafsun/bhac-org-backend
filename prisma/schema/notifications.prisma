@@ -1,13 +1,14 @@
 model Notification {
-    id      String     @id @default(uuid())
+    id      String           @id @default(uuid())
     message String
-    type    IdeaStatus
+    type    NotificationType
     status  IdeaStatus
-    userId  String
-    user    User       @relation(fields: [userId], references: [id])
 
-    postId String?
-    post   Idea?   @relation(fields: [postId], references: [id])
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    ideaId String?
+    idea   Idea?   @relation(fields: [ideaId], references: [id], onDelete: Cascade)
 
     isRead    Boolean  @default(false)
     createdAt DateTime @default(now())

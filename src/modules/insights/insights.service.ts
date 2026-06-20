@@ -1,9 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import status from "http-status";
 import { createInsightArtical } from "../../interface/insights.interface";
 import { prisma } from "../../lib/prisma";
+import { AppError } from "../../shared/errors/app-error";
 
 
 const createInsight = async (payload: createInsightArtical, userId: string) => {
+    const isAdminExist = await prisma.user.findUnique({
+        where: {
+            id: userId
+        }
+    });
+
+    if (!isAdminExist) {
+        throw new AppError(status.NOT_FOUND, "Admin is Not Found");
+    }
+
     const result = await prisma.insight.create({
         data: {
             title: payload.title,
@@ -27,10 +39,10 @@ const createInsight = async (payload: createInsightArtical, userId: string) => {
 const getAllInsights = async (query: Record<string, any>) => {
     const { searchTerm, page = 1, limit = 10 } = query;
 
+    // ✅ search by title only — "category" string field doesn't exist in schema
     const searchConditions = searchTerm ? {
         OR: [
-            { title: { contains: searchTerm as string, mode: 'insensitive' } },
-            { category: { contains: searchTerm as string, mode: 'insensitive' } },
+            { title: { contains: searchTerm as string, mode: 'insensitive' as const } },
         ]
     } : {};
 
@@ -38,7 +50,7 @@ const getAllInsights = async (query: Record<string, any>) => {
     const take = Number(limit);
 
     const result = await prisma.insight.findMany({
-        where: searchConditions as any,
+        where: searchConditions,
         skip,
         take,
         orderBy: {
@@ -53,7 +65,7 @@ const getAllInsights = async (query: Record<string, any>) => {
         },
     });
 
-    const total = await prisma.insight.count({ where: searchConditions as any });
+    const total = await prisma.insight.count({ where: searchConditions });
     const totalPages = Math.ceil(total / take);
 
     return {
@@ -81,10 +93,10 @@ const getSingleInsight = async (id: string) => {
         },
     });
     return result;
-}
+};
 
 export const InsightService = {
     createInsight,
     getAllInsights,
-    getSingleInsight
+    getSingleInsight,
 };

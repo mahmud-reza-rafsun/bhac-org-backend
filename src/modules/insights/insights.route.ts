@@ -6,20 +6,20 @@ import { InsightController } from "./insights.controller";
 const route = Router();
 
 route.get(
-    '/get-all-insight',
-    checkAuth(Role.ADMIN),
+    '/get-all-insights',
     InsightController.getAllInsights
+);
+route.post(
+    '/create-insights',
+    checkAuth(Role.ADMIN),
+    InsightController.createInsight
 );
 route.get(
     '/get-single-insight/:id',
-    checkAuth(Role.ADMIN),
+    checkAuth(Role.ADMIN, Role.MEMBER),
     InsightController.getSingleInsight
 );
 
-route.post(
-    '/create-insight',
-    checkAuth(Role.ADMIN),
-    InsightController.getAllInsights
-);
+
 
 export const insightsRoutes = route;

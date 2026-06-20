@@ -29,3 +29,8 @@ enum PaymentStatus {
     PAID
     UNPAID
 }
+
+enum NotificationType {
+    IDEA_STATUS_UPDATE
+    SYSTEM
+}

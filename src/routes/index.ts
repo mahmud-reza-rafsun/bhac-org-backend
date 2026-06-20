@@ -9,7 +9,7 @@ import { AdminRoutes } from "../modules/admin/admin.route.js";
 import { MemberRoutes } from "../modules/member/member.route.js";
 import { trendingRoute } from "../modules/trendingIdeas/trending.route.js";
 import { insightsRoutes } from "../modules/insights/insights.route.js";
-import { insightCategoryRoute } from "../modules/insightsCategory/insightsCategory.route.js";
+import { notificationRoute } from "../modules/notification/notification.route.js";
 
 const router = Router();
 
@@ -23,6 +23,6 @@ router.use("/admin", AdminRoutes)
 router.use("/member", MemberRoutes)
 router.use("/trending", trendingRoute)
 router.use("/insights", insightsRoutes)
-router.use("/insights-category", insightCategoryRoute)
+router.use("/notification", notificationRoute)
 
 export const apiRoutes = router;

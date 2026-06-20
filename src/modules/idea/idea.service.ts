@@ -4,7 +4,7 @@ import { prisma } from "../../lib/prisma";
 import { AppError } from "../../shared/errors/app-error";
 import { ICreateIdeaPayload, IUpdateIdeaPayload } from "./idea.interface";
 import { IRequestUser } from "../auth/auth.interface";
-import { IdeaStatus, Role, UserStatus } from "@prisma/client";
+import { IdeaStatus, NotificationType, Role, UserStatus } from "@prisma/client";
 
 const createIdea = async (payload: ICreateIdeaPayload, id: string) => {
     const { title, problem, solution, description, price, images, categoryId } = payload;
@@ -243,6 +243,9 @@ const updateIdea = async (user: IRequestUser, id: string, payload: IUpdateIdeaPa
     });
 }
 
+
+
+
 const approveOrRejectIdea = async (user: IRequestUser, id: string, payload: { status: string; feedback?: string }) => {
     const isUserAdmin = await prisma.user.findUnique({
         where: { id: user.id },
@@ -277,6 +280,8 @@ const approveOrRejectIdea = async (user: IRequestUser, id: string, payload: { st
 
     return result;
 };
+
+
 
 const getMyIdea = async (id: string, userId: string) => {
     const user = await prisma.user.findUnique({

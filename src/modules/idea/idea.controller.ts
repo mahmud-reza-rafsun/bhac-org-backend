@@ -5,6 +5,7 @@ import { IdeaService } from "./idea.service";
 import { sendResponse } from "../../shared/utils/send-response";
 import status from "http-status";
 import { AppError } from "../../shared/errors/app-error";
+import { IdeaStatus } from "@prisma/client";
 
 const createIdea = catchAsync(
     async (req: Request, res: Response) => {
@@ -67,12 +68,12 @@ const approveAndRejectIdea = catchAsync(
         const { id } = req.params;
 
         // Validation: Ensure feedback exists if status is REJECTED
-        if (newStatus === 'REJECTED' && !feedback) {
+        if (newStatus === IdeaStatus.REJECTED && !feedback) {
             throw new AppError(status.BAD_REQUEST, "Feedback is required when rejecting an idea.");
         }
 
         const result = await IdeaService.approveOrRejectIdea(user, id as string, {
-            status: newStatus as string,
+            status: newStatus,
             feedback: feedback as string
         });
 
