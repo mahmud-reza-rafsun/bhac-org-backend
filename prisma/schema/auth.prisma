@@ -9,10 +9,17 @@ model User {
     isDeleted          Boolean    @default(false)
     deletedAt          DateTime?
     image              String?
-    createdAt          DateTime   @default(now())
-    updatedAt          DateTime   @updatedAt
-    sessions           Session[]
-    accounts           Account[]
+    coverPhoto         String?
+
+    username      String? @unique
+    countryName   String?
+    locationState String?
+    shortBio      String?
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    sessions  Session[]
+    accounts  Account[]
 
     comments      Comment[]
     ideas         Idea[]

@@ -23,3 +23,11 @@ export interface IChangePasswordPayload {
     newPassword: string;
 }
 
+export interface IUpdateUserPayload {
+    name: string;
+    username: string;
+    coverPhoto: string;
+    countryName: string;
+    locationState: string;
+    shortBio: string;
+}

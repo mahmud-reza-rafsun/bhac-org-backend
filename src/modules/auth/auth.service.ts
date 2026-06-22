@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import status from "http-status";
-import { IChangePasswordPayload, ILoginUserPayload, IRegisterUserPayload, IRequestUser } from "./auth.interface";
+import { IChangePasswordPayload, ILoginUserPayload, IRegisterUserPayload, IRequestUser, IUpdateUserPayload } from "./auth.interface";
 import { auth } from "../../lib/auth";
 import { AppError } from "../../shared/errors/app-error";
 import { prisma } from "../../lib/prisma";
@@ -141,6 +141,26 @@ const getMe = async (user: IRequestUser) => {
 
     return isUserExists;
 }
+
+const updateProfile = async (userId: string, payload: Partial<IUpdateUserPayload>) => {
+    const isUserExist = await prisma.user.findUnique({
+        where: {
+            id: userId
+        }
+    });
+
+    if (!isUserExist) {
+        throw new AppError(status.NOT_FOUND, "User not found");
+    }
+    const updatedUser = await prisma.user.update({
+        where: {
+            id: userId
+        },
+        data: payload
+    });
+
+    return updatedUser;
+};
 
 const getNewToken = async (refreshToken: string, sessionToken: string) => {
     const isSessionTokenExists = await prisma.session.findUnique({
@@ -445,4 +465,5 @@ export const authService = {
     forgetPassword,
     resetPassword,
     googleLoginSuccess,
+    updateProfile
 };

@@ -76,6 +76,21 @@ const getMe = catchAsync(
     }
 )
 
+const updateProfile = catchAsync(
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const payload = req.body;
+        const result = await authService.updateProfile(id as string, payload);
+
+        sendResponse(res, {
+            status: status.OK,
+            success: true,
+            message: "Profile updated successfully",
+            data: result,
+        });
+    }
+);
+
 const getNewToken = catchAsync(
     async (req: Request, res: Response) => {
         const refreshToken = req.cookies.refreshToken;
@@ -301,4 +316,5 @@ export const authController = {
     googleLogin,
     googleLoginSuccess,
     handleOAuthError,
+    updateProfile
 };
