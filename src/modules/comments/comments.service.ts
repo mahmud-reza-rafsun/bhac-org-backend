@@ -2,7 +2,7 @@ import status from "http-status"
 import { prisma } from "../../lib/prisma"
 import { AppError } from "../../shared/errors/app-error"
 import { IRequestUser } from "../auth/auth.interface"
-import { ICreateCommentPayload, IUpdateComment } from "./comment.interface"
+import { ICreateCommentPayload, IUpdateComment } from "../../interface/comment.interface"
 
 const createComment = async (payload: ICreateCommentPayload, user: IRequestUser, ideaId: string) => {
     const isUserLoggedIn = await prisma.user.findUnique({
@@ -38,6 +38,10 @@ const createComment = async (payload: ICreateCommentPayload, user: IRequestUser,
 
     return result
 }
+
+const getAllComments = async () => {
+    return await prisma.comment.findMany();
+};
 
 const getCommentsByIdeaId = async (ideaId: string) => {
     const result = await prisma.comment.findMany({
@@ -137,7 +141,8 @@ const deleteComment = async (id: string, user: IRequestUser) => {
 
 export const CommentService = {
     createComment,
+    getAllComments,
     getCommentsByIdeaId,
     updateComment,
-    deleteComment
+    deleteComment,
 }

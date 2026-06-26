@@ -19,6 +19,18 @@ const createComment = catchAsync(
     }
 )
 
+const getAllComments = catchAsync(
+    async (req: Request, res: Response) => {
+        const result = await CommentService.getAllComments();
+        sendResponse(res, {
+            status: status.OK,
+            success: true,
+            message: "get all successful!!",
+            data: result
+        })
+    }
+);
+
 const getCommentsByIdeaId = catchAsync(
     async (req: Request, res: Response) => {
         const { id } = req.params;
@@ -60,11 +72,12 @@ const deleteComment = catchAsync(
             data: result
         })
     }
-)
+);
+
 
 export const CommentController = {
     createComment,
     getCommentsByIdeaId,
     updateComment,
-    deleteComment
+    deleteComment,
 }

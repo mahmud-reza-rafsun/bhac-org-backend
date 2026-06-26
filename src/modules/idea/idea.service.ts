@@ -97,7 +97,7 @@ const getAllIdea = async (params: {
                 where: { parentId: null },
                 include: {
                     user: { select: { name: true, image: true, email: true } },
-                    replies: { include: { user: { select: { name: true, email: true, image: true } } } }
+                    replies: { include: { user: { select: { name: true, email: true, image: true } } } },
                 },
                 orderBy: { createdAt: 'desc' }
             },

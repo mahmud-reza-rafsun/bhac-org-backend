@@ -5,6 +5,8 @@ import { CommentController } from "./comments.controller";
 
 const route = Router();
 
+
+route.get("/get-all-comments", checkAuth(Role.ADMIN, Role.MEMBER), CommentController.getCommentsByIdeaId);
 route.get("/get-comments/:id", checkAuth(Role.ADMIN, Role.MEMBER), CommentController.getCommentsByIdeaId);
 route.post("/create-comment/:id", checkAuth(Role.ADMIN, Role.MEMBER), CommentController.createComment)
 route.patch("/update-comment/:id", checkAuth(Role.ADMIN, Role.MEMBER), CommentController.updateComment)
