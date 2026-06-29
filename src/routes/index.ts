@@ -10,6 +10,7 @@ import { MemberRoutes } from "../modules/member/member.route.js";
 import { trendingRoute } from "../modules/trendingIdeas/trending.route.js";
 import { insightsRoutes } from "../modules/insights/insights.route.js";
 import { notificationRoute } from "../modules/notification/notification.route.js";
+import { DonationRoute } from "../modules/donations/donations.route.js";
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use("/member", MemberRoutes)
 router.use("/trending", trendingRoute)
 router.use("/insights", insightsRoutes)
 router.use("/notification", notificationRoute)
+router.use("/donations", DonationRoute)
 
 export const apiRoutes = router;
